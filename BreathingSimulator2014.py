@@ -36,9 +36,9 @@ BLACK = (0,0,0)
 font = pygame.font.SysFont("Ariel", 30)
 
 #SOUNDS
-menu = pygame.mixer.Sound(os.path.join('sound','menu.wav'))
-playing = pygame.mixer.Sound(os.path.join('sound','menu.wav'))
-dead = pygame.mixer.Sound(os.path.join('sound','dead.wav'))
+menu = pygame.mixer.Sound(os.path.join('sound','menu.ogg'))
+playing = pygame.mixer.Sound(os.path.join('sound','menu.ogg'))
+dead = pygame.mixer.Sound(os.path.join('sound','dead.ogg'))
 print ("Sounds imported")
 
 #IMAGES
@@ -54,6 +54,7 @@ pygame.display.set_caption("Breathing Simulator 2014")
 global mousebutton
 global score
 global o2
+global currentlevel
 mousebutton = '0'
 
 menu.play(-1)
@@ -65,6 +66,7 @@ def menu():
 	screen.blit(button02,(340, 550))
 
 def menubutton():
+	global currentlevel
 	global mousebutton
 	x, y = mousepos = pygame.mouse.get_pos()
 	if x > 340 and y > 375 and x < 940 and y < 475 and mousebutton == '1':
@@ -75,7 +77,7 @@ def menubutton():
 
 #GAME
 def game():
-	print ("Test")
+	screen.blit(background01,(0, 0))
 
 #GAME OVER SCREEN
 def death():
@@ -84,6 +86,7 @@ def death():
 # MAIN LOOP (RENDERING STUFF ALWAYS GOES AT TOP!)
 while True:
 	global mousebutton
+	global currentlevel
 	event = pygame.event.poll()
 	if currentlevel == '0':
 		menu()
