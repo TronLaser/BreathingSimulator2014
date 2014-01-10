@@ -16,7 +16,6 @@ fullscreen = config.get('video', 'fullscreen')
 screen_width = config.get('video', 'width')
 screen_height = config.get('video', 'height')
 debug = config.get('debug', 'debug')
-
 print ("Config file found and read")
 
 currentlevel = '0'
@@ -49,6 +48,7 @@ button01 = pygame.image.load(os.path.join('images', 'button01.png'))
 button02 = pygame.image.load(os.path.join('images', 'button02.png'))
 breathin = pygame.image.load(os.path.join('images', 'breathin.png'))
 breathout = pygame.image.load(os.path.join('images', 'breathout.png'))
+logo = pygame.image.load(os.path.join('images', 'logo.png'))
 print ("Images imported")
 
 key = pygame.key.get_pressed()
@@ -56,12 +56,14 @@ screen = pygame.display.set_mode((1280, 720)) # STARTING THE SCREEN!!
 pygame.display.set_caption("Breathing Simulator 2014")
 mousebutton = '0'
 breath = '0'
+print ("We seem to have loaded!")
 
 #MAIN MENU
 def menu():
 	screen.blit(background01,(0, 0))
 	screen.blit(button01,(340, 375))
 	screen.blit(button02,(340, 550))
+	screen.blit(logo,(500, 25))
 
 def menubutton():
 	global currentlevel
@@ -86,17 +88,26 @@ def game():
 	print scoredis
 
 	screen.blit(background01,(0, 0)) # Draw to screen
+	pygame.draw.rect(screen, BLUE,[600,100,500,25],0)
+
 	if breath == True:
 		screen.blit(breathin,(0,0))
+
 	if breath == False:
 		screen.blit(breathout,(0,0))
-	for event in pygame.event.get():
+
+	for event in pygame.event.get(): # Key presses
 	    if event.type == pygame.KEYDOWN:
 		if event.key == pygame.K_SPACE:
 		    breath = True
 	    if event.type == pygame.KEYUP:
 		if event.key == pygame.K_SPACE:
 		    breath = False
+	    if event.type == pygame.KEYDOWN:
+	        if event.key == pygame.K_ESCAPE:
+	            pygame.mixer.stop()
+                    pygame.mixer.quit()
+                    sys.exit()
 
 #GAME OVER SCREEN
 def death():
@@ -138,8 +149,6 @@ while True:
 		global mousebutton
 		mousebutton = '0'
 	if debug == '1': # Debug stuff
-		global max_fps
-		global fps_current
 		pygame.draw.rect(screen, BLACK,[0,0,105,25],0)
 		mousepos = pygame.mouse.get_pos()
 		mousepos = str(mousepos)
