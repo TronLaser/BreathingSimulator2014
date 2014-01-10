@@ -29,7 +29,7 @@ pygame.font.init()
 #COLOURS AND STUFF
 RED = (255,0,0)
 GREEN = (0,255,0)
-BLUE = (0,0,255)
+BLUE = (0,144,255)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
@@ -40,24 +40,22 @@ menu = pygame.mixer.Sound(os.path.join('sound','menu.ogg'))
 playing = pygame.mixer.Sound(os.path.join('sound','menu.ogg'))
 dead = pygame.mixer.Sound(os.path.join('sound','dead.ogg'))
 print ("Sounds imported")
+menu.play(-1)
 
 #IMAGES
 background01 = pygame.image.load(os.path.join('images', 'background01.png'))
 background02 = pygame.image.load(os.path.join('images', 'background02.png'))
 button01 = pygame.image.load(os.path.join('images', 'button01.png'))
 button02 = pygame.image.load(os.path.join('images', 'button02.png'))
+breathin = pygame.image.load(os.path.join('images', 'breathin.png'))
+breathout = pygame.image.load(os.path.join('images', 'breathout.png'))
 print ("Images imported")
 
 key = pygame.key.get_pressed()
 screen = pygame.display.set_mode((1280, 720)) # STARTING THE SCREEN!!
 pygame.display.set_caption("Breathing Simulator 2014")
-global mousebutton
-global score
-global o2
-global currentlevel
 mousebutton = '0'
-
-menu.play(-1)
+breath = '0'
 
 #MAIN MENU
 def menu():
@@ -77,18 +75,45 @@ def menubutton():
 
 #GAME
 def game():
-	screen.blit(background01,(0, 0))
+	global o2
+	global breath
+	global score
+
+	score = score + 0.01 # Handle score
+	scoredis = score
+	scoredis = round (score, 1)
+	scoredis = str(scoredis)
+	print scoredis
+
+	screen.blit(background01,(0, 0)) # Draw to screen
+	if breath == True:
+		screen.blit(breathin,(0,0))
+	if breath == False:
+		screen.blit(breathout,(0,0))
+	for event in pygame.event.get():
+	    if event.type == pygame.KEYDOWN:
+		if event.key == pygame.K_SPACE:
+		    breath = True
+	    if event.type == pygame.KEYUP:
+		if event.key == pygame.K_SPACE:
+		    breath = False
 
 #GAME OVER SCREEN
 def death():
 	screen.blit(background02,(0, 0))
+	dead.play(1)
 
+max_fps = 60
+score = 0
 # MAIN LOOP (RENDERING STUFF ALWAYS GOES AT TOP!)
 while True:
 	global mousebutton
 	global currentlevel
+	global score
+	global breath
+	max_fps = 60
 	event = pygame.event.poll()
-	if currentlevel == '0':
+	if currentlevel == '0': # Level select
 		menu()
 		menubutton()
 	if currentlevel == '1':
@@ -96,7 +121,7 @@ while True:
 	if currentlevel == '2':
 		death()
 	for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT: # Quit
 		print ("Quitting game")
 		pygame.mixer.stop()
 		pygame.mixer.quit()
@@ -106,13 +131,15 @@ while True:
 	            pygame.mixer.stop()
 		    pygame.mixer.quit()
                     sys.exit()
-	    if event.type == pygame.MOUSEBUTTONDOWN:
+	    if event.type == pygame.MOUSEBUTTONDOWN: # Mouse
 		global mousebutton
 	        mousebutton = '1'
-	    if event.type == pygame.MOUSEBUTTONUP:
+	    if event.type == pygame.MOUSEBUTTONUP: # More mouse
 		global mousebutton
 		mousebutton = '0'
-	if debug == '1':
+	if debug == '1': # Debug stuff
+		global max_fps
+		global fps_current
 		pygame.draw.rect(screen, BLACK,[0,0,105,25],0)
 		mousepos = pygame.mouse.get_pos()
 		mousepos = str(mousepos)
