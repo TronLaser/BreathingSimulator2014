@@ -7,7 +7,7 @@ You have just started manually breathing.
 
 You must keep this man alive by helping him breath. If he runs out of oxygen however, it's all over...for him, not for you, you can just hit restart.
 
-Made in 12 hours for a friend
+Made in 12 hours for a friend.
 
 Current Version 1.0
 ===================
