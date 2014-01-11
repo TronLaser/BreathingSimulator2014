@@ -9,9 +9,11 @@ You must keep this man alive by helping him breath. If he runs out of oxygen how
 
 Current Version 1.0
 ===================
+- REQUIRES PYTHON 2.7 AND PYGAME
 
 Known Bugs
 ==========
 
-- Linux - Keyboard and mouse input is very random - sometimes works sometimes doesnt
+- Mac - Havn't tested, no idea if it works. I'd expect it to with Python n all
+- Linux - Keyboard and mouse input is very random; sometimes works sometimes doesnt
 
