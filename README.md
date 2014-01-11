@@ -13,7 +13,5 @@ Current Version 1.0
 Known Bugs
 ==========
 
-Linux
-=====
-Keyboard and mouse input is very random - sometimes works sometimes doesnt
+- Linux - Keyboard and mouse input is very random - sometimes works sometimes doesnt
 
