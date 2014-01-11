@@ -1,4 +1,4 @@
-![alt tag](https://raw.github.com/TronLaser/BreathingSimulator2014/images/logo.png)
+![](https://raw.github.com/TronLaser/BreathingSimulator2014/master/images/oldlogo.png)
 
 Breathing Simulator 2014
 ======================
