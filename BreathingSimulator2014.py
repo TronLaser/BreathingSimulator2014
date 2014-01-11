@@ -3,7 +3,7 @@
 
 import pygame
 import time
-import sys
+
 import os
 import ConfigParser
 
@@ -12,9 +12,6 @@ print ("Everything imported fine")
 # Reading from the config.ini
 config = ConfigParser.ConfigParser()
 config.read("config.ini")
-fullscreen = config.get('video', 'fullscreen')
-screen_width = config.get('video', 'width')
-screen_height = config.get('video', 'height')
 debug = config.get('debug', 'debug')
 speed = config.get('game', 'speed')
 print ("Config file found and read")
@@ -115,6 +112,9 @@ def game():
 	screen.blit(background01,(0, 0)) # Draw to screen
 	pygame.draw.rect(screen, BARCOL,[600,100,o2,25],0) #THE 02 BAR!
 
+	text1 = font.render("Oxygen: ", 1, WHITE)
+	screen.blit(text1,(600, 75))
+
 	if o2down == True and o2up == False:
 		o2 = o2-speed
 		screen.blit(breathout,(0,0))
@@ -129,6 +129,7 @@ def game():
            o2up = False
 
 	if o2 == 0:
+            dead.play()
 	    currentlevel = '2'
 
 	if o2 > 100:
@@ -140,15 +141,31 @@ def game():
 def death():
 	global score
 	global scoredis
+	global currentlevel
 	screen.blit(background02,(0, 0))
 	dead1 = font2.render("You have died from lack of oxygen", 1, WHITE)
 	dead2 = font2.render("Score: ", 1, WHITE)
 	dead3 = font2.render(scoredis, 1, WHITE)
+	dead4 = font2.render("Press space to continue", 1, WHITE)
 	screen.blit(dead1,(225, 100))
 	screen.blit(dead2,(225, 160))
 	screen.blit(dead3,(360, 160))
-	dead.play(1)
-
+	screen.blit(dead4,(225, 325))
+	for event in pygame.event.get():
+		if event.type == pygame.KEYDOWN: # Spacebar down
+			if event.key == pygame.K_SPACE:
+			    currentlevel = '0'
+	
+def loopy():
+	for event in pygame.event.get():
+		if event.type == pygame.KEYDOWN: # Spacebar down
+			if event.key == pygame.K_SPACE:
+			    o2down = False
+			    o2up = True
+		if event.type == pygame.KEYUP: # Spacebar up
+			if event.key == pygame.K_SPACE:
+			    o2down = True
+			    o2up = False
 
 max_fps = 60
 score = 0
@@ -157,11 +174,10 @@ while True:
 	global mousebutton
 	global currentlevel
 	global score
-	global breath
 	global o2
 	global o2down
 	global o2up
-
+	loopy()
 	event = pygame.event.poll()
 	if currentlevel == '0': # Level select
 		menu()
@@ -173,14 +189,10 @@ while True:
 	for event in pygame.event.get():
 	    if event.type == pygame.KEYDOWN: # Spacebar down
 		if event.key == pygame.K_SPACE:
-		    breath = True
-		    screen.blit(breathin,(0,0))
 		    o2down = False
 		    o2up = True
 	    if event.type == pygame.KEYUP: # Spacebar up
 		if event.key == pygame.K_SPACE:
-		    breath = False
-		    screen.blit(breathout,(0,0))
 		    o2down = True
 		    o2up = False
             if event.type == pygame.QUIT: # Quit
@@ -199,12 +211,13 @@ while True:
 	    if event.type == pygame.MOUSEBUTTONUP: # More mouse
 		global mousebutton
 		mousebutton = '0'
-
+	loopy()
 	if debug == '1': # Debug stuff
 		pygame.draw.rect(screen, BLACK,[0,0,105,25],0)
 		mousepos = pygame.mouse.get_pos()
 		mousepos = str(mousepos)
 		mousepostext = font.render(mousepos, 1, WHITE)
 		screen.blit(mousepostext,(0, 0))
+	loopy()
 	pygame.display.update()
 
