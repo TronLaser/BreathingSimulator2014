@@ -17,5 +17,5 @@ Known Bugs
 ==========
 
 - Mac - Havn't tested, no idea if it works. I'd expect it to with Python n all
-- Linux - Keyboard and mouse input is very random; sometimes works sometimes doesnt
+- Linux - Keyboard and mouse input is very random; sometimes works sometimes doesnt (This appears to be a problem with PyGame because i cant reproduce this on Windows)
 
